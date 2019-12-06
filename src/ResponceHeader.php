@@ -14,7 +14,7 @@ use React\Http\Response;
 
 class ResponceHeader
 {
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke($seckey)
     {
         $headers = $request->getHeaders();
         $key = $headers['Sec-WebSocket-Key'][0];

@@ -36,64 +36,20 @@
 </index>
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="../public/autobahn/autobahn.min.js"></script>
+
 <script src="../public/bootstrap/js/bootstrap.js"></script>
+<!--<script src="../public/autobahn/autobahn.min.js"></script>-->
+<script src="../public/tmp.js"></script>
 
 
 <script>
 
 
 
-    function socket() {
-        let socket = new WebSocket("ws://127.0.0.1:8080/chat");
-
-        socket.onopen = function(e) {
-            console.log("[open] Соединение установлено");
-            console.log("Отправляем данные на сервер");
-            socket.send("test");
-        };
-
-        socket.onmessage = function(event) {
-            alert(`[message] Данные получены с сервера: ${event.data}`);
-        };
-
-        socket.onclose = function(event) {
-            if (event.wasClean) {
-              //  alert(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
-            } else {
-                // например, сервер убил процесс или сеть недоступна
-                // обычно в этом случае event.code 1006
-                //alert('[close] Соединение прервано');
-            }
-        };
-
-        socket.onerror = function(error) {
-            alert(`[error] ${error.message}`);
-        };
-
-    }
-    function setNode(parent, chield){
-
-        $( parent ).load( "http://localhost:8000/"+chield,function (){
-            //socket();
-            }
-        )
-    }
-    //alert(navigator.userAgent);
-    $(function() {
-      //setNode('index','main');
-
-
-       socket();
-
-
-
-
-
-
-    })
 
 </script>
+
+
 
 
 </html>
