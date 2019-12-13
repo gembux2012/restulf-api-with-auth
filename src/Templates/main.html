@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#"></a>
-        </div>
+
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav">
                 <li class="nav-item active">
@@ -33,20 +33,20 @@
             </form>
 
         </div><!--/.navbar-collapse -->
+        </div>
+
     </div>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">ReactPhp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ">
-            <a class="nav-item nav-link active" href="#" onclick="setNode('index','main'); return false;">Home <span class="sr-only">(current)</span></a>
+        <div class="navbar-nav from-json ">
+            <a class="nav-item nav-link active" href="#" onclick="setNode('index','main'); return false;">Вход <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#"onclick="setNode('index','dashboard'); return false;">Панель администраторва</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#">Disabled</a>
         </div>
     </div>
 </nav>
@@ -56,40 +56,36 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>Привет, я асинхронный серевер на php!</h1>
-        <p>Мне не нужны ни appache, ни php-fpm и вообще никакие костыли, и я не торможу. </p>
-        <p>Я умею:</p>
+        <h2>Приложение создано на ReactPhp</h2>
+        <p>состоит из двух ассинхронных сереверjd</p>
         <ul>
-            <li>Элемент маркированного списка</li>
-            <li>Элемент маркированного списка</li>
-            <li>Элемент
-            </li>
+            <li>первый сервер отдает статику, в том числе шаблоны страниц</li>
+            <li>второй сервер осуществляет обмен данными с веб-страницей в реальном времени по веб-сокет</li>
         </ul>
-        <p>Эта страница позволяет загрузить и установить в вашей системе десктопные приложения для работы
-            с  данным серевером  на толстом клиенте по HTTP и TCPIP протоколам</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Загрузить &raquo;</a></p>
+        <p>для разворачивания приложение, на сервере нужно установить только php и mysql </p>
+
     </div>
 </div>
 
 <div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Панель администратора</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">Загрузить &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
+
+    <h3>Текущие соединения:</h3>
+
+        <table class="table-striped"
+                id="table"
+                data-toggle="table"
+                data-toolbar="#toolbar"
+                data-height="460"
+                >
+            <thead>
+            <tr>
+                <th data-field="id">ID session</th>
+                <th data-field="ip">user ip</th>
+                <th data-field="user">user name</th>
+            </tr>
+            </thead>
+        </table>
+
 
     <hr>
 
@@ -98,7 +94,53 @@
     </footer>
 </div> <!-- /container -->
 
-
 <!-- Bootstrap core JavaScript
 ================================================== -->
 </body>
+
+<script>
+
+    data ={
+        "child_one": {
+            "child_of_childOne": {
+                "href": "",
+                "onclick" : ""
+            }
+        },
+        "child_two": {
+            "child_of_childTwo": {
+                "href": "",
+                "onclick" : ""
+            }
+        },
+        "child_three": {
+            "child1_of_childThree": {
+                "href": "",
+                "onclick" : ""
+            },
+            "child2_of_childThree": {
+                "attr4": {
+                    "href": "",
+                    "onclick" : ""
+                }
+            }
+        }
+    }
+    $.fn.fromJson = function(data){
+        function traverse(data) {
+            var i;
+            for (var k in data) {
+                i = data[k];
+                if (typeof i === 'string') {
+                    console.log(i);
+                } else if (typeof i === 'object') {
+                    traverse(i);
+                }
+            }
+        }
+
+    }
+
+
+    $('.from-json').fromJson(data);
+</script>

@@ -1,36 +1,43 @@
 <?php
-namespace App;
+namespace App\SSocket;
 
 use React\Socket\ConnectionInterface;
-use App\Session;
+use App\SSocket\Session;
 
 class ConnectionsPool
 {
-        /** @var SplObjectStorage */
-        protected $connections;
+   protected $connections;
+   public $socket;
 
-    public function __construct()
+    public function __construct(ServerSocket $socket)
     {
+        $this->socket = $socket;
         $this->connections = new \SplObjectStorage();
     }
+
+    public function __get($property){
+        switch ($property)
+        {
+            case 'connections':
+               return  $this->connections;
+                break;
+
+        }
+    }
+
 
     /**
      * @param ConnectionInterface $connection
      */
     public function add(ConnectionInterface $connection)
     {
-        //$connection->write($this->encode('Enter your name: '));
-        //$this->initEvents($connection);
-        $session = new \App\Session() ;
+        $session = new Session();
         $this->setConnectionData($connection, []);
         $session->id = $this->connections->getHash($connection);
         $session->ip = $connection->getRemoteAddress();
         $this->setConnectionData($connection, $session);
-       $this->send($connection,[$session->id]);
-        echo 'Всего соединений'.$this->connections->count();
-
-
-        //$this->send($connection);
+        $this->send($connection, $this->socket->onOpen($connection));
+        echo 'Всего соединений' . $this->connections->count();
     }
 
     /**
@@ -45,7 +52,7 @@ class ConnectionsPool
           switch ($type){
               case 'subscribe': {
                   $this->subsriber(json_decode($this->decode($data)['payload'])->topic,
-                      $connection,$this->decode($data)['payload']->callback);
+                      $connection);
                   break;}
               case 'publish': {
                   $this->publish(json_decode($this->decode($data)['payload'])->topic, $connection);
@@ -55,28 +62,30 @@ class ConnectionsPool
       }
    }
 
-   private function subsriber($topic, $connecton,$callback)
+   private function subsriber($topic, $connecton)
    {
-      $data =$this->getConnectionData($connecton);
+     $data =$this->getConnectionData($connecton);
      $data->topic = $topic;
-     $data->callback =$callback;
      $this->setConnectionData($connecton,$data);
-     $this->send($connecton,['type' => 'signed']);
+     $this->send($connecton,['type' => 'signed',$this->socket->onSubscriber()]);
 
-      echo data;
    }
 
-   private function publish($topic,$connection, $data=null)
+   public function publish($topic,$connection = null, $data=null)
    {
-       $_data = $this->onSubscriber($topic, $data);
+       $_data = $this->socket->onPublish($data);
        foreach ($this->connections as $conn) {
-            $data =$this->getConnectionData($conn);
-           if ($conn !== $connection && $topic == $data->topic) {
-               $this->send($conn,['type' => 'subscribe', 'data' => $_data,'callback' => $data->callback]);
+           $data = $this->getConnectionData($conn);
+           if($connection) {
+                if ($conn !== $connection && $topic == $data->topic)
+                    $this->send($conn, ['type' => 'subscribe', 'data' => $_data]);
+            } else
+                $this->send($conn, ['type' => 'subscribe', 'data' => $_data]);
 
-           }
        }
    }
+
+
 
    private function send($connection,$data)
    {
@@ -89,21 +98,7 @@ class ConnectionsPool
    }
 
 
-   private function getConnectionsProperties()
-   {
-       $properties = new \stdClass();
-       foreach ($this->connections as $conn){
-           $properties ->id = $this->getConnectionData($conn);
 
-           }
-       }
-
-
-
-   public function onSubscriber($topic,$data)
-   {
-       return $data;
-   }
    public function message(ConnectionInterface $connection,$data)
    {
          $msg=$this->decode($data)['payload'];
@@ -150,7 +145,7 @@ class ConnectionsPool
         $this->connections->offsetSet($connection, $data);
     }
 
-    protected function getConnectionData(ConnectionInterface $connection)
+    public function getConnectionData(ConnectionInterface $connection)
     {
         return $this->connections->offsetGet($connection);
     }

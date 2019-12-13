@@ -2,6 +2,8 @@ class wsoket {
     socket ;
     onOpen;
     onSigned;
+    onSubscriber;
+
 
     onsigned() {
         console.log('signed')
@@ -11,23 +13,25 @@ class wsoket {
 
     onopen() {
         this.socket.onmessage =(data)=> {
-            console.log(data)
+            //console.log(data)
             switch (JSON.parse(data.data).type) {
                 case 'session':
                     this.session = (JSON.parse(data.data));
                     break;
 
                 case 'subscribe':
-                    console.log(JSON.parse(data.data.subscribe));
+                    //console.log(JSON.stringify(JSON.parse(data.data).data))
+
+                    this.onSubscriber(JSON.parse(data.data).data);
                     break;
 
                 case 'signed':
-
-                    this.onsigned();
+                    this.onSigned();
                     break;
             }
 
         };
+
 
 
         this.socket.onclose = function (event) {
@@ -41,8 +45,14 @@ class wsoket {
 
     };
 
+    onSubsriber(data){
+        //console.log(JSON.parse(data.data).callback);
+            this.onSubscriber.call(data)
 
 
+
+        //console.log(JSON.parse(data.data).data);
+    }
  
 
     init() {
@@ -77,18 +87,18 @@ class wsoket {
 
 
     send(msg) {
-        console.log('open',this.socket)
+        //console.log('open',this.socket)
         this.socket.send(msg);
     }
 
     subscribe(topic, onevent) {
-        console.log('subscriber')
+       // console.log('subscriber')
         let msg = {'type': 'subscribe', 'topic': topic, 'callback': onevent}
         this.socket.send(JSON.stringify(msg));
     }
 
     publish(topic, data) {
-        console.log('publish')
+        //console.log('publish')
         let msg = {'type': 'publish', 'topic': topic, 'data': data}
         this.onSigned = () => this.socket.send(JSON.stringify(msg))
 
@@ -101,21 +111,4 @@ class wsoket {
 
 }
 
-wm = new wsoket();
-wm.open();
-wm.onOpen=function(){
-    wm.subscribe('all');
-    wm.publish('all');
-}
-
-console.log(wm);
-
-
-function setNode(parent, chield) {
-
-    $(parent).load("http://localhost:8000/" + chield, function () {
-            //socket();
-        }
-    )
-}
 

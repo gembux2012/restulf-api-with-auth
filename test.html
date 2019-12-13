@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    data ={"root":{
+        "child_one": {
+            "child_of_childOne": {
+                "href": "",
+                "onclick" : ""
+            }
+        },
+        "child_two": {
+            "child_of_childTwo": {
+                "href": "",
+                "onclick" : ""
+            }
+        },
+        "child_three": {
+            "child1_of_childThree": {
+                "href": "",
+                "onclick" : ""
+            },
+            "child2_of_childThree": {
+                "attr4": {
+                    "href": "",
+                    "onclick" : ""
+                }
+            }
+        }
+    }}
+
+    function traverse(data) {
+        var i;
+
+        for (var k in data) {
+
+            i = data[k];
+            console.log(data[0])
+            if (typeof i === 'string') {
+                console.log('сьрока',k);
+            } else if (typeof i === 'object') {
+                console.log('объект',i)
+                alert('')
+                traverse(i);
+            }
+        }
+    }
+
+    traverse(data)
+</script>

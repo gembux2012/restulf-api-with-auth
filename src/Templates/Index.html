@@ -8,10 +8,11 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>ReactPhp</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../public/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../public/bootstrap-table.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
 
@@ -28,8 +29,6 @@
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
-<div id="wamp-status">fghjfgjfgjhfgh</div>
-<div id="wamp-close"></div>
 
 <index>
 
@@ -40,10 +39,68 @@
 <script src="../public/bootstrap/js/bootstrap.js"></script>
 <!--<script src="../public/autobahn/autobahn.min.js"></script>-->
 <script src="../public/tmp.js"></script>
+<script src="../public/bootstrap-table.min.js"></script>
 
 
 <script>
 
+    function randomData() {
+        var startId = ~~(Math.random() * 100)
+        var rows = []
+
+        for (var i = 0; i < 10; i++) {
+            rows.push({
+                id: startId + i,
+                ip: 'test' + (startId + i),
+                user: '$' + (startId + i)
+            })
+        }
+        console.log(rows)
+        return rows
+    }
+    function drawAll (data,table){
+        console.log(data)
+        randomData()
+        table.bootstrapTable('load',data)
+            //[{"id": 33, ip: "test33", user: "$33"}]
+        //table.bootstrapTable('load',randomData())
+        //console.log(table)
+
+    }
+
+    function setNode(parent, chield) {
+
+        $(parent).load("http://localhost/" + chield, function () {
+
+               let table = $('#table')
+              table.bootstrapTable()
+
+
+                wm = new wsoket();
+                wm.open();
+                wm.onOpen = function () {
+                    wm.subscribe('all', 'drawAll');
+                    wm.publish('all');
+                }
+
+                wm.onSubscriber = function (data) {
+                    drawAll(data,table);
+                }
+
+
+
+
+            }
+        )
+    }
+
+
+
+    $(function() {
+
+        setNode('index','main')
+
+    })
 
 
 

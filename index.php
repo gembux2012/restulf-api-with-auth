@@ -57,7 +57,15 @@ $credentials = ['user' => 'secret'];
 //$server = new Server([$basicAuth, new Router($routes)]);
 
 $server = new Server([$auth, new Router($routes)]);
-$socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
+//$socket = new \React\Socket\Server( '127.0.0.1:8000', $loop);
+//$socket = new \React\Socket\SecureServer($socket, $loop, array(
+  //  'local_cert' =>  __DIR__ . '/localhost.pem'
+//));
+
+$socket = new \React\Socket\Server( '127.0.0.1:8443', $loop);
+$socket = new \React\Socket\SecureServer($socket, $loop, array(
+    'local_cert' =>  __DIR__ . 'localhost.pem'
+));
 $server->listen($socket);
 
 
@@ -66,9 +74,9 @@ $server->on('error', function (Exception $exception) {
 });
 echo 'Listening on ' . str_replace('tcp:', 'http:', $socket->getAddress()) . "\n";
 /*
-$server_socket = new Process('php server_socket.php');
-$server_socket->start($loop);
-$server_socket->stdout->on('data', function($data) {
+$serverSocket = new Process('php serverSocketphp');
+$serverSocket->start($loop);
+$serverSocket->stdout->on('data', function($data) {
     echo $data;
 });
 */
