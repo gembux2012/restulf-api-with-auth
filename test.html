@@ -5,53 +5,145 @@
     <title>Title</title>
 </head>
 <body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" ></script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">ReactPhp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-flex flex-row-reverse " >
+        <div class="navbar-nav fromJson">
+            <li class="nav-item">
+                <a class="nav-link"  href="vcbn" onclick="event.preventDefault(); menuLoad(data1)">User</a>
+            </li>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">ReactPhp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-flex flex-row-reverse " id="navbarNavAltMarkup">
+        <div class="navbar-nav ">
+
+        </div>
+    </div>
+</nav>
+
+
 
 </body>
 </html>
 <script>
-    data ={"root":{
-        "child_one": {
-            "child_of_childOne": {
-                "href": "",
-                "onclick" : ""
-            }
+    data ={
+        "top_item": {
+                "level":"item",
+                 "active":true,
+                "href": "vcbn",
+                "onclick" : "menuLoad(data1)"
+
         },
-        "child_two": {
-            "child_of_childTwo": {
-                "href": "",
-                "onclick" : ""
-            }
+        "top_item1": {
+            "level":"item",
+            "href": "cvbn",
+            "onclick" : ""
+
         },
-        "child_three": {
-            "child1_of_childThree": {
-                "href": "",
+        "dropdown_item": {
+            'level' :"dropdown_item",
+            "dropdown1": {
+                "level":"item",
+                "href": "cvn",
                 "onclick" : ""
             },
-            "child2_of_childThree": {
-                "attr4": {
-                    "href": "",
-                    "onclick" : ""
-                }
-            }
-        }
-    }}
+            "dropdown2": {
+                "level":"item",
+                "href": "cvbn",
+                "onclick" : ""
+            },
+        },
+        "top_item2": {
+            "level":"item",
+            "href": "cvbn",
+            "onclick" : ""
 
-    function traverse(data) {
-        var i;
+        },
 
-        for (var k in data) {
-
-            i = data[k];
-            console.log(data[0])
-            if (typeof i === 'string') {
-                console.log('сьрока',k);
-            } else if (typeof i === 'object') {
-                console.log('объект',i)
-                alert('')
-                traverse(i);
-            }
-        }
     }
 
-    traverse(data)
+    data1={
+        "Тоько что загрузили": {
+            "level":"item",
+            "active":true,
+            "href": "vcbn",
+            "onclick" : "menuLoad(data)"
+
+        },
+        "и меня": {
+            "level":"item",
+            "href": "cvbn",
+            "onclick" : ""
+
+        },
+    }
+
+
+    $.fn.fromJson = function(data) {
+        let i;
+        let el=''
+
+        drawNav(data,false )
+
+        function drawNav(data, dropdown) {
+            for (var k in data) {
+                i = data[k];
+                if (typeof i === 'object') {
+                     let href = data[k]['href']
+                     let onclick = data[k]['onclick']
+                      if(onclick){
+                          onclick =(`"
+                              event.preventDefault();
+                              ${data[k]['onclick']}"`)
+                      }
+                    switch (data[k]['level']) {
+                        case 'item':
+                            if(!dropdown) {
+                                el += (`<li class="nav-item insert_from_json ${data[k]['active'] ? 'active': ''}">
+                                     <a class="nav-link" href=${href} onclick=${onclick}>${k}</a></li>\n`)
+                            } else {
+                                el += (`<a class="dropdown-item insert_from_json" href=${href} onclick=${onclick}>${k}</a>\n`)
+                            }
+                            drawNav(i, false)
+                            break
+                        case 'dropdown_item':
+                            el += (`<li class="nav-item dropdown insert_from_json">\n
+                                     <a class="nav-link dropdown-toggle" href=
+                                      role="button" data-toggle="dropdown" >
+                                      ${k}</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">\n`)
+                            drawNav(i, true);
+                            el += '\n</div>\n</li>'
+                            break
+
+                    }
+
+                }
+            }
+
+        }
+        $('.fromJson .insert_from_json').remove();
+        $('.fromJson').prepend(el)
+        console.log(el)
+    }
+
+
+    function menuLoad(data1){
+        $('.fromJson').fromJson(data1);
+    }
+    $('.fromJson').fromJson(data);
+
 </script>

@@ -57,16 +57,12 @@ $credentials = ['user' => 'secret'];
 //$server = new Server([$basicAuth, new Router($routes)]);
 
 $server = new Server([$auth, new Router($routes)]);
-//$socket = new \React\Socket\Server( '127.0.0.1:8000', $loop);
+$socket = new \React\Socket\Server( '127.0.0.1:8000', $loop);
 //$socket = new \React\Socket\SecureServer($socket, $loop, array(
   //  'local_cert' =>  __DIR__ . '/localhost.pem'
 //));
-
-$socket = new \React\Socket\Server( '127.0.0.1:8443', $loop);
-$socket = new \React\Socket\SecureServer($socket, $loop, array(
-    'local_cert' =>  __DIR__ . 'localhost.pem'
-));
 $server->listen($socket);
+
 
 
 $server->on('error', function (Exception $exception) {
