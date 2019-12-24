@@ -22,17 +22,6 @@
     </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">ReactPhp</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse d-flex flex-row-reverse " id="navbarNavAltMarkup">
-        <div class="navbar-nav ">
-
-        </div>
-    </div>
-</nav>
 
 
 
@@ -86,64 +75,138 @@
         "и меня": {
             "level":"item",
             "href": "cvbn",
-            "onclick" : ""
+            "onclick" : "fghsf"
 
         },
     }
 
 
-    $.fn.fromJson = function(data) {
-        let i;
-        let el=''
+    //(function( $ ){
 
-        drawNav(data,false )
+     class fromJson{
 
-        function drawNav(data, dropdown) {
-            for (var k in data) {
-                i = data[k];
-                if (typeof i === 'object') {
+        // i;
+         el = ''
+         constructor(data,opt,tag){
+
+             this.tag = tag
+             this.opt =opt
+             this.draw(data,false)
+
+         }
+         static fromJson=function (data,opt) {
+             if (!(this instanceof fromJson)) return new  fromJson(data,opt);
+
+         }
+         reload (data) {
+             this.draw(data,false)
+         }
+
+         draw(data,dropdown){
+             this.tag.children('.from_json').remove()
+             this.prepare(data,dropdown)
+
+             setTimeout(() => { console.log(this.el)},1000)
+             if (this.opt['pozition'] == 'prepend')
+                 this.tag.prepend(this.el)
+             else
+                 (this.tag.append(this.el),1000)
+         }
+
+         prepare(data, dropdown) {
+             let el =''
+             for (var k in data) {
+                 let i = data[k];
+                 if (typeof i === 'object') {
                      let href = data[k]['href']
-                     let onclick = data[k]['onclick']
-                      if(onclick){
-                          onclick =(`"
+
+                     let onclick = ''
+                     if (data[k]['onclick']) {
+                         onclick = (`"
                               event.preventDefault();
                               ${data[k]['onclick']}"`)
-                      }
-                    switch (data[k]['level']) {
-                        case 'item':
-                            if(!dropdown) {
-                                el += (`<li class="nav-item insert_from_json ${data[k]['active'] ? 'active': ''}">
+                     } else if(this.opt['onclick']){
+                         onclick = (`"
+                              event.preventDefault();
+                              ${this.opt['onclick']}"`)
+                     }
+
+
+                     switch (data[k]['level']) {
+                         case 'item':
+                             if (!dropdown) {
+                                 this.el += (`<li class="nav-item insert_from_json ${data[k]['active'] ? 'active' : ''}">
                                      <a class="nav-link" href=${href} onclick=${onclick}>${k}</a></li>\n`)
-                            } else {
-                                el += (`<a class="dropdown-item insert_from_json" href=${href} onclick=${onclick}>${k}</a>\n`)
-                            }
-                            drawNav(i, false)
-                            break
-                        case 'dropdown_item':
-                            el += (`<li class="nav-item dropdown insert_from_json">\n
+                             } else {
+                                 this.el += (`<a class="dropdown-item insert_from_json" href=${href} onclick=${onclick}>${k}</a>\n`)
+                             }
+                             this.prepare(i, false)
+                             break
+                         case 'dropdown_item':
+                             this.el += (`<li class="nav-item dropdown insert_from_json">\n
                                      <a class="nav-link dropdown-toggle" href=
                                       role="button" data-toggle="dropdown" >
                                       ${k}</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">\n`)
-                            drawNav(i, true);
-                            el += '\n</div>\n</li>'
-                            break
+                             this.prepare(i, true);
+                             this.el += '\n</div>\n</li>'
+                             break
 
-                    }
+                     }
 
-                }
-            }
+                 }
+             }
 
-        }
-        $('.fromJson .insert_from_json').remove();
-        $('.fromJson').prepend(el)
-        console.log(el)
-    }
 
+
+
+         }
+
+
+/*
+         $('.fromJson .insert_from_json').remove();
+         if (opt['pozition'] == 'prepend')
+         $('.fromJson').prepend(el)
+         else
+         $('.fromJson').append(el)
+         */
+
+
+     };
+
+
+
+
+    jQuery.fn.extend( fromJson.fromJson(data,opt));
+
+/*
+    $.fn.fromJson =function (data,opt={
+        'position': 'append',
+        'href': '/',
+        'onclick' :''
+
+    }){
+
+        this['fromJson'] = new fromJson(data,opt,this);
+    };
+    //})( jQuery );
+
+*/
+
+    $('.fromJson').fromJson(data,{
+        'position': 'append', //default | prepend
+        'href': '/', //default
+        'onclick' :'zvzxcvz' //default
+
+    });
 
     function menuLoad(data1){
-        $('.fromJson').fromJson(data1);
+        console.log($('.fromJson')['fromJson'])
+        $('.fromJson').fromJson.reload(data1)
+        //menu.reload(data1)
+
     }
-    $('.fromJson').fromJson(data);
+
+
 
 </script>

@@ -11,6 +11,7 @@ class wsoket {
     }
 
 
+
     onopen() {
         this.socket.onmessage =(data)=> {
             //console.log(data)
