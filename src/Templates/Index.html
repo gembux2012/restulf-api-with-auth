@@ -28,6 +28,8 @@
 
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
 </head>
 
 <index>
@@ -36,41 +38,40 @@
 
 <!-- Placed at the end of the document so the pages load faster -->
 
-<script src="../public/bootstrap/js/bootstrap.js"></script>
-<!--<script src="../public/autobahn/autobahn.min.js"></script>-->
+<script src="../public/bootstrap/js/bootstrap.min.js"></script>
 <script src="../public/tmp.js"></script>
+<script src="../public/nav_from_json.js"></script>
 <script src="../public/bootstrap-table.min.js"></script>
 
 
 <script>
 
-    function randomData() {
-        var startId = ~~(Math.random() * 100)
-        var rows = []
 
-        for (var i = 0; i < 10; i++) {
-            rows.push({
-                id: startId + i,
-                ip: 'test' + (startId + i),
-                user: '$' + (startId + i)
-            })
-        }
-        console.log(rows)
-        return rows
-    }
-    function drawAll (data,table){
-        console.log(data)
-        randomData()
+    drawAll= function  (data,table){
+
         table.bootstrapTable('load',data)
-            //[{"id": 33, ip: "test33", user: "$33"}]
-        //table.bootstrapTable('load',randomData())
-        //console.log(table)
+
 
     }
 
-    function setNode(parent, chield) {
+   setNode = function(parent, chield) {
 
         $(parent).load("http://localhost:8000/" + chield, function () {
+
+            $('.fromJson').navFromJson({
+                'position': 'append', //default | prepend
+                'href': '/', //default
+                'onclick' :'' //default
+
+            });
+
+
+            $('.fromJson').navFromJson('load',{"Вход": {
+                    "level":"item",
+                    "active":true,
+                    "onclick" : "menuLoad(data1)"
+
+                }})
 
                let table = $('#table')
               table.bootstrapTable()
@@ -97,6 +98,9 @@
 
 
     $(function() {
+
+
+
 
         setNode('index','main')
 

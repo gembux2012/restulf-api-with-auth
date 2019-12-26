@@ -1,17 +1,17 @@
 [
     {
         "name": "cakephp/core",
-        "version": "3.8.5",
-        "version_normalized": "3.8.5.0",
+        "version": "3.8.7",
+        "version_normalized": "3.8.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/cakephp/core.git",
-            "reference": "bd893c7103f1b87d3fa41d80fc60024e1a18cf5f"
+            "reference": "e77b155f93fd63d1a944c07f27abc82651377956"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/cakephp/core/zipball/bd893c7103f1b87d3fa41d80fc60024e1a18cf5f",
-            "reference": "bd893c7103f1b87d3fa41d80fc60024e1a18cf5f",
+            "url": "https://api.github.com/repos/cakephp/core/zipball/e77b155f93fd63d1a944c07f27abc82651377956",
+            "reference": "e77b155f93fd63d1a944c07f27abc82651377956",
             "shasum": ""
         },
         "require": {
@@ -22,7 +22,7 @@
             "cakephp/cache": "To use Configure::store() and restore().",
             "cakephp/event": "To use PluginApplicationInterface or plugin applications."
         },
-        "time": "2019-10-05T19:33:15+00:00",
+        "time": "2019-11-19T13:39:32+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -53,17 +53,17 @@
     },
     {
         "name": "cakephp/utility",
-        "version": "3.8.5",
-        "version_normalized": "3.8.5.0",
+        "version": "3.8.7",
+        "version_normalized": "3.8.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/cakephp/utility.git",
-            "reference": "a90e4da0bd61fe2febcd68e6246bc974dcc43773"
+            "reference": "e60bf1dc7fbdbc0d717c950cbbeb3196d3bc0cf9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/cakephp/utility/zipball/a90e4da0bd61fe2febcd68e6246bc974dcc43773",
-            "reference": "a90e4da0bd61fe2febcd68e6246bc974dcc43773",
+            "url": "https://api.github.com/repos/cakephp/utility/zipball/e60bf1dc7fbdbc0d717c950cbbeb3196d3bc0cf9",
+            "reference": "e60bf1dc7fbdbc0d717c950cbbeb3196d3bc0cf9",
             "shasum": ""
         },
         "require": {
@@ -74,7 +74,7 @@
             "ext-intl": "To use Text::transliterate() or Text::slug()",
             "lib-ICU": "To use Text::transliterate() or Text::slug()"
         },
-        "time": "2019-09-09T13:08:53+00:00",
+        "time": "2019-11-21T14:18:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -108,17 +108,17 @@
     },
     {
         "name": "doctrine/inflector",
-        "version": "v1.3.0",
-        "version_normalized": "1.3.0.0",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/inflector.git",
-            "reference": "5527a48b7313d15261292c149e55e26eae771b0a"
+            "reference": "ec3a55242203ffa6a4b27c58176da97ff0a7aec1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
-            "reference": "5527a48b7313d15261292c149e55e26eae771b0a",
+            "url": "https://api.github.com/repos/doctrine/inflector/zipball/ec3a55242203ffa6a4b27c58176da97ff0a7aec1",
+            "reference": "ec3a55242203ffa6a4b27c58176da97ff0a7aec1",
             "shasum": ""
         },
         "require": {
@@ -127,7 +127,7 @@
         "require-dev": {
             "phpunit/phpunit": "^6.2"
         },
-        "time": "2018-01-09T20:05:19+00:00",
+        "time": "2019-10-30T19:59:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -146,16 +146,16 @@
         ],
         "authors": [
             {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
                 "name": "Roman Borschel",
                 "email": "roman@code-factory.org"
             },
             {
                 "name": "Benjamin Eberlei",
                 "email": "kontakt@beberlei.de"
-            },
-            {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
             },
             {
                 "name": "Jonathan Wage",
@@ -177,17 +177,17 @@
     },
     {
         "name": "doctrine/instantiator",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/instantiator.git",
-            "reference": "a2c590166b2133a4633738648b6b064edae0814a"
+            "reference": "ae466f726242e637cebdd526a7d991b9433bacf1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/a2c590166b2133a4633738648b6b064edae0814a",
-            "reference": "a2c590166b2133a4633738648b6b064edae0814a",
+            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/ae466f726242e637cebdd526a7d991b9433bacf1",
+            "reference": "ae466f726242e637cebdd526a7d991b9433bacf1",
             "shasum": ""
         },
         "require": {
@@ -202,7 +202,7 @@
             "phpstan/phpstan-shim": "^0.11",
             "phpunit/phpunit": "^7.0"
         },
-        "time": "2019-03-17T17:37:11+00:00",
+        "time": "2019-10-21T16:45:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -449,29 +449,28 @@
     },
     {
         "name": "icecave/repr",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/icecave/repr.git",
-            "reference": "8a3d2953adf5f464a06e3e2587aeacc97e2bed07"
+            "reference": "87b7de87d0323c6ab99116bac3e66c4522c06be0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/icecave/repr/zipball/8a3d2953adf5f464a06e3e2587aeacc97e2bed07",
-            "reference": "8a3d2953adf5f464a06e3e2587aeacc97e2bed07",
+            "url": "https://api.github.com/repos/icecave/repr/zipball/87b7de87d0323c6ab99116bac3e66c4522c06be0",
+            "reference": "87b7de87d0323c6ab99116bac3e66c4522c06be0",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3"
+            "php": ">=7.1"
         },
         "require-dev": {
-            "icecave/archer": "~1"
+            "friendsofphp/php-cs-fixer": "^2",
+            "phake/phake": "^1",
+            "phpunit/phpunit": "^7"
         },
-        "suggest": {
-            "eloquent/asplode": "Drop-in exception-based error handling."
-        },
-        "time": "2014-07-25T05:44:41+00:00",
+        "time": "2019-10-23T03:45:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -486,12 +485,12 @@
         "authors": [
             {
                 "name": "James Harris",
-                "email": "james.harris@icecave.com.au",
+                "email": "mailjamesharris@gmail.com",
                 "homepage": "https://github.com/jmalloc"
             }
         ],
         "description": "A library for generating string representations of any value, inspired by Python's reprlib library.",
-        "homepage": "https://github.com/IcecaveStudios/repr",
+        "homepage": "https://github.com/icecave/repr",
         "keywords": [
             "human",
             "readable",
@@ -707,17 +706,17 @@
     },
     {
         "name": "nikic/php-parser",
-        "version": "v4.2.5",
-        "version_normalized": "4.2.5.0",
+        "version": "v4.3.0",
+        "version_normalized": "4.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2"
+            "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
-            "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
+            "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
             "shasum": ""
         },
         "require": {
@@ -725,17 +724,17 @@
             "php": ">=7.0"
         },
         "require-dev": {
-            "ircmaxell/php-yacc": "0.0.4",
+            "ircmaxell/php-yacc": "0.0.5",
             "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
         },
-        "time": "2019-10-25T18:33:07+00:00",
+        "time": "2019-11-08T13:50:10+00:00",
         "bin": [
             "bin/php-parse"
         ],
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.2-dev"
+                "dev-master": "4.3-dev"
             }
         },
         "installation-source": "dist",
@@ -1768,33 +1767,33 @@
     },
     {
         "name": "recoil/kernel",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/recoilphp/kernel.git",
-            "reference": "38908af4e1ed3178afddc518338695e5c548c47f"
+            "reference": "cf307c4f8de2b82dfd3798b1bdd1d2c229239b3a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/recoilphp/kernel/zipball/38908af4e1ed3178afddc518338695e5c548c47f",
-            "reference": "38908af4e1ed3178afddc518338695e5c548c47f",
+            "url": "https://api.github.com/repos/recoilphp/kernel/zipball/cf307c4f8de2b82dfd3798b1bdd1d2c229239b3a",
+            "reference": "cf307c4f8de2b82dfd3798b1bdd1d2c229239b3a",
             "shasum": ""
         },
         "require": {
-            "icecave/repr": "^1",
-            "php": "^7",
+            "icecave/repr": "^2",
+            "php": "^7.1",
             "recoil/api": "^1"
         },
         "require-dev": {
-            "eloquent/phony": "^2",
-            "friendsofphp/php-cs-fixer": "^1",
+            "eloquent/phony": "^3.2",
+            "friendsofphp/php-cs-fixer": "^2",
             "hamcrest/hamcrest-php": "^2",
             "peridot-php/leo": "^1",
             "peridot-php/peridot": "^1",
             "peridot-php/peridot-code-coverage-reporters": "^2"
         },
-        "time": "2017-12-13T03:55:11+00:00",
+        "time": "2019-10-31T08:17:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2020,17 +2019,17 @@
     },
     {
         "name": "symfony/routing",
-        "version": "v4.3.5",
-        "version_normalized": "4.3.5.0",
+        "version": "v4.4.2",
+        "version_normalized": "4.4.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/routing.git",
-            "reference": "3b174ef04fe66696524efad1e5f7a6c663d822ea"
+            "reference": "628bcafae1b2043969378dcfbf9c196539a38722"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/routing/zipball/3b174ef04fe66696524efad1e5f7a6c663d822ea",
-            "reference": "3b174ef04fe66696524efad1e5f7a6c663d822ea",
+            "url": "https://api.github.com/repos/symfony/routing/zipball/628bcafae1b2043969378dcfbf9c196539a38722",
+            "reference": "628bcafae1b2043969378dcfbf9c196539a38722",
             "shasum": ""
         },
         "require": {
@@ -2044,11 +2043,11 @@
         "require-dev": {
             "doctrine/annotations": "~1.2",
             "psr/log": "~1.0",
-            "symfony/config": "~4.2",
-            "symfony/dependency-injection": "~3.4|~4.0",
-            "symfony/expression-language": "~3.4|~4.0",
-            "symfony/http-foundation": "~3.4|~4.0",
-            "symfony/yaml": "~3.4|~4.0"
+            "symfony/config": "^4.2|^5.0",
+            "symfony/dependency-injection": "^3.4|^4.0|^5.0",
+            "symfony/expression-language": "^3.4|^4.0|^5.0",
+            "symfony/http-foundation": "^3.4|^4.0|^5.0",
+            "symfony/yaml": "^3.4|^4.0|^5.0"
         },
         "suggest": {
             "doctrine/annotations": "For using the annotation loader",
@@ -2057,11 +2056,11 @@
             "symfony/http-foundation": "For using a Symfony Request object",
             "symfony/yaml": "For using the YAML loader"
         },
-        "time": "2019-10-04T20:57:10+00:00",
+        "time": "2019-12-12T12:53:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.3-dev"
+                "dev-master": "4.4-dev"
             }
         },
         "installation-source": "dist",

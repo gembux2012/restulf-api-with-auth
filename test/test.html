@@ -7,6 +7,7 @@
 <body>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="nav_from_json.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" ></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">ReactPhp</a>
@@ -80,133 +81,105 @@
         },
     }
 
-
     //(function( $ ){
+    /*
+    $.widget("_navFromJson", {
 
-     class fromJson{
 
-        // i;
-         el = ''
-         constructor(data,opt,tag){
+        options: {
+            position: 'append',
+            href    : '/',
+            onclick : ''
+        },
 
-             this.tag = tag
-             this.opt =opt
-             this.draw(data,false)
 
-         }
-         static fromJson=function (data,opt) {
-             if (!(this instanceof fromJson)) return new  fromJson(data,opt);
+        _create: function () {
+            // вызовем в нем конструктор родительского плагина
 
-         }
-         reload (data) {
-             this.draw(data,false)
-         }
 
-         draw(data,dropdown){
-             this.tag.children('.from_json').remove()
-             this.prepare(data,dropdown)
+            // в дальнейшем, мы разместим здесь и свои манипуляции
+        },
 
-             setTimeout(() => { console.log(this.el)},1000)
-             if (this.opt['pozition'] == 'prepend')
-                 this.tag.prepend(this.el)
+
+         load: function(data){
+             elements.children('.from_json').remove()
+             if (this.options.position == 'prepend')
+                 elements.prepend(this.el)
              else
-                 (this.tag.append(this.el),1000)
-         }
+                 elements.append(this.el)
+         },
+         */
+$.fn.NavFromJson = function( data ){
 
-         prepare(data, dropdown) {
-             let el =''
-             for (var k in data) {
-                 let i = data[k];
-                 if (typeof i === 'object') {
-                     let href = data[k]['href']
+        this.prepare(data,false)
 
-                     let onclick = ''
-                     if (data[k]['onclick']) {
-                         onclick = (`"
+        function prepare(data, dropdown,el='') {
+
+            for (var k in data) {
+                let i = data[k];
+                if (typeof i === 'object') {
+                    let href = data[k]['href']
+
+                    let onclick = ''
+                    if (data[k]['onclick']) {
+                        onclick = (`"
                               event.preventDefault();
                               ${data[k]['onclick']}"`)
-                     } else if(this.opt['onclick']){
-                         onclick = (`"
+                    } else if(this.options.onclick){
+                        onclick = (`"
                               event.preventDefault();
-                              ${this.opt['onclick']}"`)
-                     }
+                              ${this.options.onclick}"`)
+                    }
 
 
-                     switch (data[k]['level']) {
-                         case 'item':
-                             if (!dropdown) {
-                                 this.el += (`<li class="nav-item insert_from_json ${data[k]['active'] ? 'active' : ''}">
+                    switch (data[k]['level']) {
+                        case 'item':
+                            if (!dropdown) {
+                                el += (`<li class="nav-item insert_from_json ${data[k]['active'] ? 'active' : ''}">
                                      <a class="nav-link" href=${href} onclick=${onclick}>${k}</a></li>\n`)
-                             } else {
-                                 this.el += (`<a class="dropdown-item insert_from_json" href=${href} onclick=${onclick}>${k}</a>\n`)
-                             }
-                             this.prepare(i, false)
-                             break
-                         case 'dropdown_item':
-                             this.el += (`<li class="nav-item dropdown insert_from_json">\n
+                            } else {
+                                el += (`<a class="dropdown-item insert_from_json" href=${href} onclick=${onclick}>${k}</a>\n`)
+                            }
+                            this.prepare(i, false,el)
+                            break
+                        case 'dropdown_item':
+                            el += (`<li class="nav-item dropdown insert_from_json">\n
                                      <a class="nav-link dropdown-toggle" href=
                                       role="button" data-toggle="dropdown" >
                                       ${k}</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">\n`)
-                             this.prepare(i, true);
-                             this.el += '\n</div>\n</li>'
-                             break
+                            this.prepare(i, true,el);
+                            el += '\n</div>\n</li>'
+                            break
 
-                     }
+                    }
 
-                 }
-             }
-
-
-
-
-         }
-
-
-/*
-         $('.fromJson .insert_from_json').remove();
-         if (opt['pozition'] == 'prepend')
-         $('.fromJson').prepend(el)
-         else
-         $('.fromJson').append(el)
-         */
-
-
-     };
-
-
-
-
-    jQuery.fn.extend( fromJson.fromJson(data,opt));
-
-/*
-    $.fn.fromJson =function (data,opt={
-        'position': 'append',
-        'href': '/',
-        'onclick' :''
-
-    }){
-
-        this['fromJson'] = new fromJson(data,opt,this);
-    };
+                }
+            }
+          return el
+        }
+    }
     //})( jQuery );
 
-*/
 
-    $('.fromJson').fromJson(data,{
+
+
+
+    $('.fromJson').navFromJson({
         'position': 'append', //default | prepend
         'href': '/', //default
         'onclick' :'zvzxcvz' //default
 
     });
 
-    function menuLoad(data1){
-        console.log($('.fromJson')['fromJson'])
-        $('.fromJson').fromJson.reload(data1)
-        //menu.reload(data1)
 
+    //$('.fromJson').NavFromJson(data1)
+   // console.log($('.fromJson').data['settings'])
+    menuLoad=function (data1) {
+        $('.fromJson').navFromJson('load',data1)
     }
 
+    $('.fromJson').navFromJson('load',data)
 
 
 </script>

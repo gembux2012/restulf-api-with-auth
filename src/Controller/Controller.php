@@ -41,7 +41,7 @@ class  Controller
 
     /**
      * @param string $filePath
-     * @return PromiseInterface|Response
+     * @return \React\Promise\PromiseInterface
      */
     protected function makeResponseFromFile($filePath)
     {
@@ -63,10 +63,10 @@ class  Controller
                 */
                return  $file->getContents()->then(function ($contents) {
                    return new Response(200, [], $contents);
-                });
+                }, function (Exception $e){return new Response(404, [], 'rtertuy');});
 
             }, function () {
-            return new Response(404, ['Content-Type' => 'text/plain'], "This video doesn't exist on server.");
+            return new Response(404, ['Content-Type' => 'text/plain'], "file  exist ");
         });
     }
 
