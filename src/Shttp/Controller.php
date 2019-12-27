@@ -15,7 +15,7 @@ use React\Http\Response;
 
 const DS = DIRECTORY_SEPARATOR;
 
-define('ROOT_PATH', realpath(__DIR__ . '/../'));
+define('ROOT_PATH', realpath(__DIR__ . '/src/'));
 define('ROOT_PATH_TEMPLATES', ROOT_PATH . DS . 'Templates');
 define('ROOT_PATH_PUBLIC', ROOT_PATH . DS . 'public');
 
@@ -45,35 +45,29 @@ class  Controller
      */
     protected function makeResponseFromFile($filePath)
     {
+        $file=null;
         $file = $this->filesystem->file($filePath);
-//         $file->
-        return $file->exists()->then(
-
-            function () use ($file) {
-                /*
-                return $file->open('r') ->then(
-                    function (ReadableStream $stream) use($file) {
-                       // $last_modified_time = $file->time();
-                        //$etag = md5_file($file);
-                        return new Response(200, [], $stream);
-                    }
-
-
+        echo $filePath."\r\n";
+        return $file->exists()
+            ->then(function () use ($file) {
+                return $file->open('r');
+            })
+            ->then(function (ReadableStream $stream) {
+                return new Response(
+                    200,
+                    [],
+                    $stream
                 );
-                */
-               return  $file->getContents()->then(function ($contents) {
-                   return new Response(200, [], $contents);
-                }, function (Exception $e){return new Response(404, [], 'rtertuy');});
-
-            }, function () {
-            return new Response(404, ['Content-Type' => 'text/plain'], "file  exist ");
-        });
+            }, function (){})
+            ->otherwise(function () {
+                return new Response(
+                    404,
+                    ['Content-Type' => 'text/plain'],
+                    "This video doesn't exist on server."
+                );
+            });
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return string|null
-     */
     private function getFilePath(ServerRequestInterface $request)
     {
         $file = $request->getQueryParams()['video'] ?? null;

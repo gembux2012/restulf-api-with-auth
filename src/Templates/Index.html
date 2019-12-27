@@ -56,7 +56,7 @@
 
    setNode = function(parent, chield) {
 
-        $(parent).load("http://localhost:8000/" + chield, function () {
+        $(parent).load("/" + chield, function () {
 
             $('.fromJson').navFromJson({
                 'position': 'append', //default | prepend
@@ -87,6 +87,8 @@
                 wm.onSubscriber = function (data) {
                     drawAll(data,table);
                 }
+
+
 
 
 

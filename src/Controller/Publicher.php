@@ -30,7 +30,7 @@ class Publicher extends Controller
     public function __invoke(ServerRequestInterface $request)
     {
 
-        $realPath = ROOT_PATH.DS.$request->getRequestTarget();
+        $realPath = ROOT_PATH.$request->getRequestTarget();
         return $this->makeResponseFromFile( $realPath);
         //        return  JsonResponse::ok("hellow I server");
     }

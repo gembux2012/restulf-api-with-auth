@@ -31,7 +31,9 @@ $factory = new Factory($loop);
 $db = $factory->createLazyConnection('root:Password00@localhost/mydb');
 $users = new Users($db);
 $authenticator = new JwtAuthenticator(new JwtEncoder('secret'), $users);
-$fs = Filesystem::create($loop);
+$adapter = new \React\Filesystem\ChildProcess\Adapter($loop);
+$fs = \React\Filesystem\Filesystem::createFromAdapter($adapter);
+//$fs = Filesystem::create($loop);
 
 
 $routes = new RouteCollector(new Std(), new GroupCountBased());
@@ -50,11 +52,7 @@ $auth = new Guard('/users', $authenticator);
 
 $credentials = ['user' => 'secret'];
 
-//$basicAuth = new PSR15Middleware(
-//    $loop,
-//    \Middlewares\BasicAuthentication::class, [$credentials]
-//);
-//$server = new Server([$basicAuth, new Router($routes)]);
+
 
 $server = new Server([$auth, new Router($routes)]);
 $socket = new \React\Socket\Server( '127.0.0.1:8000', $loop);
@@ -66,16 +64,11 @@ $server->listen($socket);
 
 
 $server->on('error', function (Exception $exception) {
-    echo $exception->getMessage() . PHP_EOL;
+//    echo $exception->getMessage() . PHP_EOL;
+    echo 'error';
 });
 echo 'Listening on ' . str_replace('tcp:', 'http:', $socket->getAddress()) . "\n";
-/*
-$serverSocket = new Process('php serverSocketphp');
-$serverSocket->start($loop);
-$serverSocket->stdout->on('data', function($data) {
-    echo $data;
-});
-*/
+
 
 $loop->run();
 
