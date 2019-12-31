@@ -2,27 +2,10 @@
 use App\Auth\JwtAuthenticator;
 use App\Auth\JwtEncoder;
 use App\Auth\Guard;
-use App\Controller\CreateUser;
-use App\Controller\DeleteUser;
-use App\Controller\ListUsers;
-use App\Controller\Login;
-use App\Controller\UpdateUser;
-use App\Controller\ViewUser;
-use App\Controller\DefaultController;
-use App\Router;
 use App\Users;
-use App\Controller\Publicher;
-use App\Controller\LoadTemlate;
 use App\ConnectionsPool;
-use FastRoute\DataGenerator\GroupCountBased;
-use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
 use React\Http\Server;
 use React\MySQL\Factory;
-use React\Filesystem\Filesystem;
-use React\ChildProcess\Process;
-use React\Socket\ConnectionInterface;
-use React\Filesystem\Stream\ReadableStream;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -33,35 +16,20 @@ $users = new Users($db);
 $authenticator = new JwtAuthenticator(new JwtEncoder('secret'), $users);
 $adapter = new \React\Filesystem\ChildProcess\Adapter($loop);
 $fs = \React\Filesystem\Filesystem::createFromAdapter($adapter);
-//$fs = Filesystem::create($loop);
-
-
-$routes = new RouteCollector(new Std(), new GroupCountBased());
-$routes->get('/{name:[a-z]+}', new LoadTemlate($fs));
-$routes->get('/public/{ndomname:.+}', new Publicher($fs));
-$routes->get('/', new DefaultController($fs));
-$routes->post('/login', new Login($authenticator));
-$routes->get('/users/user', new ListUsers($users));
-$routes->post('/users', new CreateUser($users));
-$routes->get('/users/{id}', new ViewUser($users));
-$routes->put('/users/{id}', new UpdateUser($users));
-$routes->delete('/users/{id}', new DeleteUser($users));
 
 
 $auth = new Guard('/users', $authenticator);
 
 $credentials = ['user' => 'secret'];
 
+$controller = new \App\Shttp\Controller($fs);
 
-
-$server = new Server([$auth, new Router($routes)]);
+$server = new Server([$auth, $controller]);
 $socket = new \React\Socket\Server( '127.0.0.1:8000', $loop);
 //$socket = new \React\Socket\SecureServer($socket, $loop, array(
   //  'local_cert' =>  __DIR__ . '/localhost.pem'
 //));
 $server->listen($socket);
-
-
 
 $server->on('error', function (Exception $exception) {
 //    echo $exception->getMessage() . PHP_EOL;

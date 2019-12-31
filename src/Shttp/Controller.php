@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 06.11.19
- * Time: 13:30
- */
 
-namespace App\Controller;
+namespace App\Shttp;
 
+use Psr\Http\Message\ServerRequestInterface;
 use React\Filesystem\FilesystemInterface;
 use React\Filesystem\Stream\ReadableStream;
 use React\Http\Response;
@@ -15,7 +10,7 @@ use React\Http\Response;
 
 const DS = DIRECTORY_SEPARATOR;
 
-define('ROOT_PATH', realpath(__DIR__ . '/src/'));
+define('ROOT_PATH', realpath( 'src'));
 define('ROOT_PATH_TEMPLATES', ROOT_PATH . DS . 'Templates');
 define('ROOT_PATH_PUBLIC', ROOT_PATH . DS . 'public');
 
@@ -28,26 +23,43 @@ class  Controller
         $this->filesystem = $filesystem;
     }
 
-     public function GetFile(ServerRequestInterface $request)
+    /**
+     * @param ServerRequestInterface $request
+     * @return bool|string
+     */
+    private function router(ServerRequestInterface $request)
     {
-        $filePath = $this->getFilePath($request);
+        $routePath = $request->getUri()->getPath();
 
-        if ($filePath === null) {
-            return new Response(200, ['Content-Type' => 'text/plain'], 'Video streaming server');
+        $matches = explode('/', $routePath);
+        if ($matches) {
+            switch ($matches[1]) {
+                case '':
+                    {
+                        return ROOT_PATH_TEMPLATES . DS . 'Index.html';
+                    }
+                case 'public':
+                    {
+                        return ROOT_PATH .DS. $routePath;
+                    }
+
+                default :
+                    {
+                        return ROOT_PATH_TEMPLATES . DS .$routePath.'.html';
+                    }
+            }
         }
-
-        return $this->makeResponseFromFile($filePath);
     }
+
 
     /**
      * @param string $filePath
      * @return \React\Promise\PromiseInterface
      */
-    protected function makeResponseFromFile($filePath)
+    private function makeResponseFromFile($filePath)
     {
-        $file=null;
+        $file = null;
         $file = $this->filesystem->file($filePath);
-        echo $filePath."\r\n";
         return $file->exists()
             ->then(function () use ($file) {
                 return $file->open('r');
@@ -58,32 +70,29 @@ class  Controller
                     [],
                     $stream
                 );
-            }, function (){})
+            })
             ->otherwise(function () {
                 return new Response(
                     404,
                     ['Content-Type' => 'text/plain'],
-                    "This video doesn't exist on server."
+                    "not found"
                 );
             });
     }
 
-    private function getFilePath(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request)
     {
-        $file = $request->getQueryParams()['video'] ?? null;
+        $path = $this->router($request);
 
-        if ($file === null) {
-            return null;
+        if ($path) {
+            return $this->makeResponseFromFile($path);
+        } else {
+            echo "path not found";
         }
-
-        return __DIR__ . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . basename($file);
     }
 
-    protected static function getRealPath($path){
-
-    }
-
-    public function if_modified(){
+    public function if_modified()
+    {
         $last_modified_time = filemtime($file);
         $etag = md5_file($file);
         $header = [
