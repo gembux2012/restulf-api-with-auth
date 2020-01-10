@@ -17,6 +17,7 @@ define('ROOT_PATH_PUBLIC', ROOT_PATH . DS . 'public');
 class  Controller
 {
     private $filesystem;
+    public $request;
 
     public function __construct(FilesystemInterface $filesystem)
     {
@@ -27,9 +28,9 @@ class  Controller
      * @param ServerRequestInterface $request
      * @return bool|string
      */
-    private function router(ServerRequestInterface $request)
+    private function router()
     {
-        $routePath = $request->getUri()->getPath();
+        $routePath = $this->request->getUri()->getPath();
 
         $matches = explode('/', $routePath);
         if ($matches) {
@@ -58,31 +59,50 @@ class  Controller
      */
     private function makeResponseFromFile($filePath)
     {
-        $file = null;
-        $file = $this->filesystem->file($filePath);
-        return $file->exists()
-            ->then(function () use ($file) {
-                return $file->open('r');
-            })
-            ->then(function (ReadableStream $stream) {
-                return new Response(
-                    200,
-                    [],
-                    $stream
-                );
-            })
-            ->otherwise(function () {
-                return new Response(
-                    404,
-                    ['Content-Type' => 'text/plain'],
-                    "not found"
-                );
-            });
+        $last_modified_time = filemtime($filePath);
+        $etag = md5_file($filePath);
+        $header = [
+            'Modified-Since' => gmdate("D, d M Y H:i:s", $last_modified_time) . " GMT",
+            'Etag' => $etag,
+            //'Content-Type' => $content_type
+        ];
+
+        if (@strtotime($this->request->getHeaderLine('If-Modified-Since')) == $last_modified_time ||
+            $this->request->getHeaderLine('If-None-Match') == $etag
+        ) {
+            return new Response(304);
+        } else {
+
+            $file = $this->filesystem->file($filePath);
+            return $file->exists()
+                ->then(function () use ($file) {
+                    return $file->open('r');
+                })
+                ->then(function (ReadableStream $stream) use ($header) {
+                    return new Response(
+                        200,
+                        $header,
+                        $stream
+                    );
+                },
+                    function () {
+                        return new Response(
+                            404,
+                            ['Content-Type' => 'text/plain'],
+                            "not found"
+                        );
+                    });
+        }
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return \React\Promise\PromiseInterface
+     */
     public function __invoke(ServerRequestInterface $request)
     {
-        $path = $this->router($request);
+        $this->request = $request;
+        $path = $this->router();
 
         if ($path) {
             return $this->makeResponseFromFile($path);
@@ -91,14 +111,5 @@ class  Controller
         }
     }
 
-    public function if_modified()
-    {
-        $last_modified_time = filemtime($file);
-        $etag = md5_file($file);
-        $header = [
-            'Modified-Since' => gmdate("D, d M Y H:i:s", $last_modified_time) . " GMT",
-            'Etag' => $etag,
 
-        ];
-    }
 }
