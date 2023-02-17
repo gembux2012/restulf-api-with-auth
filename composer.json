@@ -6,7 +6,7 @@
         "guzzlehttp/psr7": "^1.5",
         "for/http-middleware-psr15-adapter": "^1.0",
         "middlewares/http-authentication": "^1.1",
-        "firebase/php-jwt": "^5.0",
+        "firebase/php-jwt": "^6.0",
         "symfony/routing": "^4.2",
         "react/filesystem": "^0.1.2",
         "react/child-process": "^0.6.1"
